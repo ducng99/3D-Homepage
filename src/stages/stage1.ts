@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as ThreeHelper from '../ThreeHelper'
+import Stage2 from './stage2';
 
 export default function Stage1()
 {
@@ -60,10 +61,19 @@ function Step3()
 
 /**
  * Turn around and look at camera
+ * ! YES THIS STEP SUCKS.
+ * TODO: Fix animation.
  */
 function Step4()
 {
     ThreeHelper.humanModel.PlayAnimation("LookAround", false, () => {
-        ThreeHelper.humanModel.Model?.rotateY(THREE.MathUtils.degToRad(180));
+        ThreeHelper.humanModel.Model?.rotation.set(0, 0, 0);
+        
+        const position2D = new THREE.Vector2(ThreeHelper.humanModel.Model!.position.x, ThreeHelper.humanModel.Model!.position.z);
+        const angleRot = Math.tanh(Math.abs(ThreeHelper.camera.position.z - position2D.y) / Math.abs(ThreeHelper.camera.position.x - position2D.x));
+        
+        ThreeHelper.humanModel.Model?.rotateY(angleRot);
+        
+        Stage2();
     });
 }
