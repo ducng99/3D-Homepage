@@ -1,0 +1,47 @@
+import * as THREE from 'three'
+import Model from './Model'
+
+export default class Movement
+{
+    private static readonly FRAMETIME = 1000 / 60;
+    private speed = 0.002;
+    private parent: Model;
+    
+    constructor(model: Model)
+    {
+        this.parent = model;
+    }
+    
+    /**
+     * Move model to specified destination + rotate model
+     * ! Rotation only works in 2D (currently mixing 3D and 2D calculations)
+     * TODO: Add 3D for rotation
+     * @param dest a {@link THREE.Vector3} object contains destination position
+     * @param onDone (optional) a function to call after finished moving
+     */
+    MoveTo(dest: THREE.Vector3, onDone?: Function)
+    {
+        const distance = dest.distanceTo(this.parent.Model!.position);
+        const walkingTime = distance / this.speed;   // How long will walk to dest take (ms)
+        const steps = Math.floor(walkingTime / Movement.FRAMETIME);
+        
+        const position2D = new THREE.Vector2(this.parent.Model!.position.x, this.parent.Model!.position.z);
+        const angleRot = Math.tanh(Math.abs(dest.z - position2D.y) / Math.abs(dest.x - position2D.x));
+        this.parent.Model?.rotateY(-angleRot);
+        
+        const pathVector = new THREE.Vector3().copy(dest).sub(this.parent.Model!.position);
+        const stepVector = new THREE.Vector3().copy(pathVector).divideScalar(steps);
+        
+        for (let i = 1; i <= steps; i++)
+        {
+            setTimeout(() => {
+                this.parent.Model!.position.add(stepVector);
+                
+                if (onDone && i == steps)
+                {
+                    onDone();
+                }
+            }, i * Movement.FRAMETIME);
+        }
+    }
+}

@@ -40,7 +40,7 @@ export async function SetupRoom() {
         bedroomModel = new Model();
         bedroomModel.InitFromGLTF(gltf);
 
-        scene.add(bedroomModel.GetModel()!);
+        scene.add(bedroomModel.Model!);
     }, undefined, function (error) {
         console.error(error);
     });
@@ -51,7 +51,7 @@ export async function SetupHuman(onLoaded?: Function) {
         humanModel = new Model();
         humanModel.InitFromGLTF(gltf);
 
-        scene.add(humanModel.GetModel()!);
+        scene.add(humanModel.Model!);
         
         if (onLoaded)
             onLoaded();
@@ -66,7 +66,7 @@ export async function SetupLights() {
 
     light = new THREE.PointLight(0xFDF4DC, 0, 0, 2);
     light.power = 531;
-    light.position.set(0, 4, 0);
+    light.position.set(0, 4, 1);
     light.castShadow = true;
     light.shadow.mapSize.width = light.shadow.mapSize.height = 1024;
     light.shadow.bias = -0.001;
@@ -85,8 +85,8 @@ export async function TurnOffLight()
 export async function SetupMoonLight()
 {
     moonLight = new THREE.PointLight(0xC2C5CC, 0, 0, 2);
-    moonLight.power = 2500;
-    moonLight.position.set(-10, 30, 2);
+    moonLight.power = 2000;
+    moonLight.position.set(-20, 30, 2);
     moonLight.castShadow = true;
     moonLight.shadow.mapSize.width = moonLight.shadow.mapSize.height = 4096;
     moonLight.shadow.bias = -0.001;
@@ -108,15 +108,15 @@ export function UpdateSize()
 export function animate() {
     requestAnimationFrame(animate);
 
-    if (typeof bedroomModel !== 'undefined')
-        bedroomModel.GetMixer()?.update(clock.getDelta());
+    if (typeof humanModel !== 'undefined')
+        humanModel.Mixer?.update(clock.getDelta());
 
     renderer.render(scene, camera);
 };
 
 export function Cleanup()
 {
-    bedroomModel.GetModel()?.traverse(obj => {
+    bedroomModel.Model?.traverse(obj => {
         if (obj instanceof THREE.Mesh)
         {
             obj.geometry.dispose();
@@ -124,9 +124,9 @@ export function Cleanup()
         }
     });
     
-    scene.remove(bedroomModel.GetModel()!);
+    scene.remove(bedroomModel.Model!);
     
-    humanModel.GetModel()?.traverse(obj => {
+    humanModel.Model?.traverse(obj => {
         if (obj instanceof THREE.Mesh)
         {
             obj.geometry.dispose();
@@ -134,7 +134,7 @@ export function Cleanup()
         }
     });
     
-    scene.remove(humanModel.GetModel()!);
+    scene.remove(humanModel.Model!);
     
     scene.remove(light);
     scene.remove(moonLight);

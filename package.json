@@ -1,5 +1,15 @@
 {
-  "version": "0.0.0",
+  "name": "3d-room",
+  "author": {
+    "email": "tom@ducng.dev",
+    "name": "Thomas Nguyen",
+    "url": "https://ducng.dev"
+  },
+  "repository": {
+    "url": "https://github.com/ducng99/3D-Homepage"
+  },
+  "license": "AGPL-3.0",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,6 +21,7 @@
     "vite": "^2.3.7"
   },
   "dependencies": {
+    "cookies": "^0.8.0",
     "three": "^0.129.0"
   }
 }

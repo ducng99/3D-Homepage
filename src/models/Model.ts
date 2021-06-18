@@ -1,16 +1,19 @@
 import * as THREE from 'three'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import Movement from './Movement';
 
 export default class Model {
-    private model?: THREE.Group;
+    private _model?: THREE.Group;
     private animations?: THREE.AnimationClip[];
-    private mixer?: THREE.AnimationMixer;
+    private _mixer?: THREE.AnimationMixer;
+    private action?: THREE.AnimationAction;
+    private _movement?: Movement;
     
     InitFromGLTF(gltf: GLTF)
     {
-        this.model = gltf.scene;
+        this._model = gltf.scene;
         
-        this.model.traverse(mesh =>
+        this._model.traverse(mesh =>
         {
             if (mesh instanceof THREE.Mesh)
             {
@@ -20,24 +23,30 @@ export default class Model {
         });
         
         this.animations = gltf.animations;
-        this.mixer = new THREE.AnimationMixer(this.model);
+        this._mixer = new THREE.AnimationMixer(this._model);
+        this._movement = new Movement(this);
     }
     
-    GetModel()
+    get Model()
     {
-        return this.model;
+        return this._model;
     }
     
-    GetMixer()
+    get Mixer()
     {
-        return this.mixer;
+        return this._mixer;
+    }
+    
+    get Movement()
+    {
+        return this._movement;
     }
     
     SetScale(scale: number)
     {
-        if (this.model)
+        if (this.Model)
         {
-            this.model.scale.set(scale, scale, scale);
+            this.Model.scale.set(scale, scale, scale);
         }
         else
         {
@@ -45,14 +54,31 @@ export default class Model {
         }
     }
     
-    PlayAnimation(animName: string, loop: boolean = false)
+    PlayAnimation(animName: string, loop: boolean = false, onDone?: Function)
     {
-        if (this.animations && animName)
+        if (this.Mixer && this.animations && animName)
         {
+            if (this.action && this.action.isRunning)
+                this.StopAnimation();
+            
             const clip = THREE.AnimationClip.findByName(this.animations, animName);
-            const action = this.mixer!.clipAction(clip);
-            action.play();
-            action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
+            this.action = this.Mixer.clipAction(clip);
+            this.action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
+            this.action.play();
+            
+            if (onDone)
+            {
+                setTimeout(onDone, clip.duration * 1000);
+            }
         }
+        else
+        {
+            console.error("Cannot find animation action with name %s", animName);
+        }
+    }
+    
+    StopAnimation()
+    {
+        this.action?.stop();
     }
 }

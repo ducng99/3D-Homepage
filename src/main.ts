@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import * as ThreeHelper from './ThreeHelper'
-import { DialogNamePostisioning, DialogTextPositioning } from './stages/dialog'
+import { DialogNamePostisioning, DialogTextPositioning } from './dialog'
 import Stage1 from './stages/stage1';
 
 window.onload = () =>
