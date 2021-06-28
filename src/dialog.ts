@@ -65,12 +65,26 @@ export function SetDialogText(text: string)
         if (dialogTextDOM)
         {
             textRunning = true;
+            let extraDelay = 0;
+            
             for (let i = 0; i < text.length; i++)
             {
+                // This adds delay BEFORE the character is shown. Not ideal, will need changes later.
+                // TODO: Make it after
+                if (text.substring(i, i + 1) === "\n")
+                    extraDelay += 500;
+                else if (text.substring(i, i + 1) === ".")
+                    extraDelay += 250;
+                
                 setTimeout(() => {
                     if (dialogTextDOM)
                     {
-                        dialogTextDOM.textContent = text.substring(0, i + 1) + "_";
+                        let charToPrint = text.substring(i, i + 1);
+                        
+                        if (charToPrint === "\n")
+                            charToPrint = "<br/>";
+                        
+                        dialogTextDOM.innerHTML += charToPrint;
                     
                         if (i == text.length - 1)
                         {
@@ -84,13 +98,17 @@ export function SetDialogText(text: string)
                                     if (dialogTextDOM.textContent?.endsWith("_"))
                                         blinkingCursorIsShown = true;
                                     
-                                    dialogTextDOM.textContent = blinkingCursorIsShown ? dialogTextDOM.textContent!.substring(0, dialogTextDOM.textContent!.length - 1) : dialogTextDOM.textContent + "_";
+                                    dialogTextDOM.innerHTML = blinkingCursorIsShown ? dialogTextDOM.innerHTML!.substring(0, dialogTextDOM.innerHTML!.length - 1) : dialogTextDOM.innerHTML + "_";
                                 }
                             }, 500);
                         }
                     }
-                }, i * 50);
+                }, i * 50 + extraDelay);
             }
         }
+    }
+    else
+    {
+        console.warn("WARNING! Dialog's text is still running, pls fix overlap");
     }
 }
