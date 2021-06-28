@@ -22,11 +22,11 @@ export default class Movement
     MoveTo(dest: THREE.Vector3, onDone?: Function)
     {
         const distance = dest.distanceTo(this.parent.Model!.position);
-        const walkingTime = distance / this.speed;   // How long will walk to dest take (ms)
+        const walkingTime = distance / this.speed;   // How long it will take to walk to dest (ms)
         const steps = Math.floor(walkingTime / Movement.FRAMETIME);
         
         const position2D = new THREE.Vector2(this.parent.Model!.position.x, this.parent.Model!.position.z);
-        const angleRot = Math.tanh(Math.abs(dest.z - position2D.y) / Math.abs(dest.x - position2D.x));
+        const angleRot = Math.tanh(Math.abs((dest.z - position2D.y) / (dest.x - position2D.x)));
         this.parent.Model?.rotateY(-angleRot);
         
         const pathVector = new THREE.Vector3().copy(dest).sub(this.parent.Model!.position);

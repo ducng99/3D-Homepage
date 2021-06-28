@@ -23,8 +23,13 @@ export default class Model {
         });
         
         this.animations = gltf.animations;
+        
+        console.log(`Imported ${this.animations.length} animations from model`);
+        
         this._mixer = new THREE.AnimationMixer(this._model);
         this._movement = new Movement(this);
+        
+        console.log("Imported model done!");
     }
     
     get Model()
@@ -62,18 +67,25 @@ export default class Model {
                 this.StopAnimation();
             
             const clip = THREE.AnimationClip.findByName(this.animations, animName);
-            this.action = this.Mixer.clipAction(clip);
-            this.action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
-            this.action.play();
-            
-            if (onDone)
+            if (clip)
             {
-                setTimeout(onDone, clip.duration * 1000);
+                this.action = this.Mixer.clipAction(clip);
+                this.action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
+                this.action.play();
+            
+                if (onDone)
+                {
+                    setTimeout(onDone, clip.duration * 1000);
+                }
+            }
+            else
+            {
+                console.error(`No animation with name "${animName}" found`);
             }
         }
         else
         {
-            console.error("Cannot find animation action with name %s", animName);
+            console.error("No animations imported from model.");
         }
     }
     
