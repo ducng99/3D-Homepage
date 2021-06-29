@@ -56,7 +56,12 @@ export function DialogTextPositioning()
 let textRunning = false;
 let blinkingCursorInterval: number;
 
-export function SetDialogText(text: string)
+/**
+ * Set new text for the dialog with typing animation
+ * @param text an HTML string to show on the dialog
+ * @param onDone a function to call after finish displaying all text
+ */
+export function SetDialogText(text: string, onDone?: Function)
 {
     if (!textRunning)
     {
@@ -64,47 +69,64 @@ export function SetDialogText(text: string)
         let dialogTextDOM = document.getElementById("dialog-text");
         if (dialogTextDOM)
         {
+            // Clear previous text
+            dialogTextDOM.innerHTML = "";
+            
             textRunning = true;
             let extraDelay = 0;
             
             for (let i = 0; i < text.length; i++)
             {
+                let charToPrint = text.substring(i, i + 1);
+                
                 // This adds delay BEFORE the character is shown. Not ideal, will need changes later.
                 // TODO: Make it after
-                if (text.substring(i, i + 1) === "\n")
+                if (charToPrint === "\n")
                     extraDelay += 500;
-                else if (text.substring(i, i + 1) === ".")
-                    extraDelay += 250;
+                else if (charToPrint === ".")
+                    extraDelay += 300;
+                else if (charToPrint === ",")
+                    extraDelay += 200;
                 
                 setTimeout(() => {
                     if (dialogTextDOM)
                     {
-                        let charToPrint = text.substring(i, i + 1);
-                        
+                        // If new line character found, add <br/> tag instead
                         if (charToPrint === "\n")
                             charToPrint = "<br/>";
                         
+                        // Add character to text DOM
                         dialogTextDOM.innerHTML += charToPrint;
-                    
+                        
+                        // When finished printing all chars
                         if (i == text.length - 1)
                         {
                             textRunning = false;
                             
-                            blinkingCursorInterval = setInterval(() => {
+                            if (onDone)
+                                onDone();
+                            
+                            // Setup blinking cursor interval
+                            blinkingCursorInterval = window.setInterval(() => {
                                 if (dialogTextDOM)
                                 {
-                                    let blinkingCursorIsShown = false;
+                                    let blinkingCursorIsShown = dialogTextDOM.innerHTML.endsWith("_");
                                     
-                                    if (dialogTextDOM.textContent?.endsWith("_"))
-                                        blinkingCursorIsShown = true;
-                                    
-                                    dialogTextDOM.innerHTML = blinkingCursorIsShown ? dialogTextDOM.innerHTML!.substring(0, dialogTextDOM.innerHTML!.length - 1) : dialogTextDOM.innerHTML + "_";
+                                    dialogTextDOM.innerHTML = blinkingCursorIsShown ? dialogTextDOM.innerHTML.substring(0, dialogTextDOM.innerHTML.length - 1) : dialogTextDOM.innerHTML + "_";
                                 }
                             }, 500);
                         }
                     }
+                    else
+                    {
+                        console.error("Dialog text DOM no longer exist");
+                    }
                 }, i * 50 + extraDelay);
             }
+        }
+        else
+        {
+            console.error("Cannot find dialog text DOM");
         }
     }
     else
