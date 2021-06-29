@@ -73,33 +73,37 @@ export function SetDialogText(text: string, onDone?: Function)
             dialogTextDOM.innerHTML = "";
             
             textRunning = true;
-            let extraDelay = 0;
+            let delay = 0;
             
-            for (let i = 0; i < text.length; i++)
+            const charactersToPrint = text.match(/(<.+?>)|(.)/g);
+            let printedText = "";
+            
+            for (let i = 0; charactersToPrint && i < charactersToPrint.length; i++)
             {
-                let charToPrint = text.substring(i, i + 1);
+                let charToPrint = charactersToPrint[i];
                 
-                // This adds delay BEFORE the character is shown. Not ideal, will need changes later.
+                // This modify delay BEFORE the character is shown. Not ideal, will need changes later.
                 // TODO: Make it after
-                if (charToPrint === "\n")
-                    extraDelay += 500;
+                if (/<\/?br\/?>/.test(charToPrint))     // if this is new line, add delay
+                    delay += 500;
                 else if (charToPrint === ".")
-                    extraDelay += 300;
+                    delay += 300;
                 else if (charToPrint === ",")
-                    extraDelay += 200;
+                    delay += 200;
+                else
+                    delay += 50;
                 
                 setTimeout(() => {
                     if (dialogTextDOM)
                     {
-                        // If new line character found, add <br/> tag instead
-                        if (charToPrint === "\n")
-                            charToPrint = "<br/>";
+                        // * This is to prevent HTML autofill closing tag. Eg. adding <b> will have </b> prepended immediately by browser. We must rewrite the whole innerHTML
+                        printedText += charToPrint;
                         
                         // Add character to text DOM
-                        dialogTextDOM.innerHTML += charToPrint;
+                        dialogTextDOM.innerHTML = printedText;
                         
                         // When finished printing all chars
-                        if (i == text.length - 1)
+                        if (i == charactersToPrint.length - 1)
                         {
                             textRunning = false;
                             
@@ -121,7 +125,7 @@ export function SetDialogText(text: string, onDone?: Function)
                     {
                         console.error("Dialog text DOM no longer exist");
                     }
-                }, i * 50 + extraDelay);
+                }, delay);
             }
         }
         else

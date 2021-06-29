@@ -27,7 +27,7 @@ describe("Dialog tests", () =>
     
     it("Set dialog text", (done) =>
     {        
-        const textToTest = "Hello I am Tom. How are you?";
+        const textToTest = "Hello I am <b>Tom</b>.<br>How are you?";
         
         Dialog.SetDialogText(textToTest, () =>
         {
@@ -35,7 +35,7 @@ describe("Dialog tests", () =>
             try
             {
                 expect(dialogTextDOM).not.toBeNull();
-                expect(dialogTextDOM!.textContent).toEqual(textToTest);
+                expect(dialogTextDOM!.innerHTML).toEqual(textToTest);
                 done();
             }
             catch (e)
