@@ -4,6 +4,8 @@
 
 const Dialog = require('../src/dialog')
 
+jest.setTimeout(10000);
+
 describe("Dialog tests", () => 
 {
     beforeEach(() =>
@@ -23,15 +25,23 @@ describe("Dialog tests", () =>
         expect(dialogDOM!.getAttribute("style")).toContain("display: block");
     })
     
-    it("Set dialog text", () =>
-    {
+    it("Set dialog text", (done) =>
+    {        
         const textToTest = "Hello I am Tom. How are you?";
         
         Dialog.SetDialogText(textToTest, () =>
         {
             const dialogTextDOM = document.querySelector("#dialog-text");
-            expect(dialogTextDOM).not.toBeNull();
-            expect(dialogTextDOM!.textContent).toEqual(textToTest);
+            try
+            {
+                expect(dialogTextDOM).not.toBeNull();
+                expect(dialogTextDOM!.textContent).toEqual(textToTest);
+                done();
+            }
+            catch (e)
+            {
+                done(e);
+            }
         });
     });
 });
