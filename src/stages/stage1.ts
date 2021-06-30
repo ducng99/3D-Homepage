@@ -25,7 +25,6 @@ function Step1()
         setTimeout(() => {
             ThreeHelper.SetupHuman(() => {
                 ThreeHelper.humanModel.Model?.position.set(10, 0, 3);
-                ThreeHelper.humanModel.Model?.rotateY(THREE.MathUtils.degToRad(-90));
                 
                 Step2();
             });
@@ -65,9 +64,8 @@ function Step4()
 {
     ThreeHelper.humanModel.PlayAnimation("LookAround", false, () => {
         const position2D = new THREE.Vector2(ThreeHelper.humanModel.Model!.position.x, ThreeHelper.humanModel.Model!.position.z);
-        const angleRot = Math.tanh(Math.abs((ThreeHelper.camera.position.x - position2D.x) / (ThreeHelper.camera.position.z - position2D.y)));
-        
-        ThreeHelper.humanModel.Model?.rotateY(ThreeHelper.humanModel.Model?.rotation.y + angleRot + Math.PI);
+        const angleRot = Math.atan2((ThreeHelper.camera.position.x - position2D.x), (ThreeHelper.camera.position.z - position2D.y));
+        ThreeHelper.humanModel.Model?.rotation.set(0, angleRot, 0);
         
         Stage2();
     });
