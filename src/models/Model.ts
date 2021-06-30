@@ -75,7 +75,7 @@ export default class Model {
             
                 if (onDone)
                 {
-                    setTimeout(onDone, clip.duration * 1000);
+                    setTimeout(onDone, clip.duration * 1000 + 2);
                 }
             }
             else

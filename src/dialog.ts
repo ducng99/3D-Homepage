@@ -75,7 +75,7 @@ export function SetDialogText(text: string, onDone?: Function)
             textRunning = true;
             let delay = 0;
             
-            const charactersToPrint = text.match(/(<.+?>)|(.)/g);
+            const charactersToPrint = text.match(/<.+?>|(?:\.|,) |./g);
             let printedText = "";
             
             for (let i = 0; charactersToPrint && i < charactersToPrint.length; i++)
@@ -86,10 +86,10 @@ export function SetDialogText(text: string, onDone?: Function)
                 // TODO: Make it after
                 if (/<\/?br\/?>/.test(charToPrint))     // if this is new line, add delay
                     delay += 500;
-                else if (charToPrint === ".")
+                else if (charToPrint === ". ")
+                    delay += 400;
+                else if (charToPrint === ", ")
                     delay += 300;
-                else if (charToPrint === ",")
-                    delay += 200;
                 else
                     delay += 50;
                 
