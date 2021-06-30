@@ -16,12 +16,16 @@ function Step1()
     ThreeHelper.humanModel.PlayAnimation("WaveHands");
     
     Dialog.ShowDialog();
-    Dialog.SetDialogText(
-        `Hi there!<br/><br/>
-        I'm Tom, a junior programmer.<br/>
-        Welcome to my bedroom, where I create dozens of apps, programs and websites. But I think you can already tell by my ugly 3D model, I am definately not a designer.`,
-        () => setTimeout(Step2, 3000)
-    );
+    
+    // 1s delay for dialog box animation to finish
+    setTimeout(() => {
+        Dialog.SetDialogText(
+            `Hi there!<br/><br/>
+            I'm Tom, a junior programmer.<br/>
+            Welcome to my bedroom, where I create dozens of apps, programs and websites. But I think you can already tell by my ugly 3D model, I am definately not a designer.`,
+            () => setTimeout(Step2, 3000)
+        );
+    }, 1000);
 }
 
 /**
@@ -42,7 +46,7 @@ function Step3()
     ThreeHelper.humanModel.PlayAnimation("Pointing");
     
     Dialog.SetDialogText(
-        `If you are interested, let's have a look at my computer!`,
+        `If you are interested, take a look at my computer!`,
         () => Step4
     );
 }

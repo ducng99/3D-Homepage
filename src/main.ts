@@ -1,5 +1,4 @@
 import * as ThreeHelper from './ThreeHelper'
-import { DialogNamePostisioning, DialogTextPositioning } from './dialog'
 import Stage1 from './stages/stage1';
 
 window.onload = () =>
@@ -15,8 +14,6 @@ window.onload = () =>
 window.onresize = () =>
 {
     ThreeHelper.UpdateSize();
-    DialogNamePostisioning();
-    DialogTextPositioning();
 }
 
 window.onunload = () => ThreeHelper.Cleanup();

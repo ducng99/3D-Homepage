@@ -1,4 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+:root
+{
+    --dialog-bottom-padding: 0.5rem;
+    --dialog-height: 28vh;
+    --dialog-background-ratio: 3;
+}
+
 body
 {
     margin: 0px;
+}
+
+@keyframes dialogTextOpen {
+    from {
+        left: calc(100vw / 2);
+        bottom: calc(var(--dialog-height) / 2 + var(--dialog-bottom-padding));
+        width: 0vw;
+        height: 0vh;
+    }
+    to {
+        left: calc(100vw / 2 - var(--dialog-height) * (var(--dialog-background-ratio) / 2));
+        bottom: var(--dialog-bottom-padding);
+        width: calc(var(--dialog-height) * var(--dialog-background-ratio));
+        height: var(--dialog-height);
+    }
+}
+
+#dialog-text
+{
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 1.1rem;
+    background: url("./svgs/dialog.svg") center center/contain no-repeat;
+    width: 0vw;
+    height: 0vh;
+    animation-name: dialogTextOpen;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    z-index: 2;
 }
