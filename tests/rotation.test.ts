@@ -21,7 +21,7 @@ beforeEach(() =>
         throw new Error("Model not initialized");
 });
 
-describe("Rotate Y on axis", () =>
+describe("Rotate on Y-axis", () =>
 {
     it("Rotate 45 degrees", () =>
     {

@@ -36,11 +36,9 @@ function Step1()
  */
 function Step2()
 {
-    ThreeHelper.humanModel.PlayAnimation("Walking", true);
+    ThreeHelper.humanModel.Animation?.Play("Walking", true);
     
-    ThreeHelper.humanModel.Movement?.MoveTo(new THREE.Vector3(4, 0, 3), () => {
-        Step3();
-    });
+    ThreeHelper.humanModel.Movement?.MoveTo(new THREE.Vector3(4, 0, 3), Step3);
 }
 
 /**
@@ -49,19 +47,18 @@ function Step2()
 function Step3()
 {
     ThreeHelper.humanModel.Movement?.MoveTo(new THREE.Vector3(1, 0, 1), () => {
-        ThreeHelper.humanModel.StopAnimation();
+        ThreeHelper.humanModel.Animation?.Stop();
         Step4();
     });
 }
 
 /**
  * Turn around and look at camera
- * ! YES THIS STEP SUCKS.
  * TODO: Fix animation.
  */
 function Step4()
 {
-    ThreeHelper.humanModel.PlayAnimation("LookAround", false, () => {
+    ThreeHelper.humanModel.Animation?.Play("LookAround", false, () => {
         ThreeHelper.humanModel.Rotation?.RotateY(ThreeHelper.camera.position);
         
         import("./stage2").then(Stage2 => Stage2.default());

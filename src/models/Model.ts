@@ -1,15 +1,14 @@
 import * as THREE from 'three'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import Movement from './Movement';
-import Rotation from './Rotation';
+import AnimationHelper from './AnimationHelper';
+import MovementHelper from './MovementHelper';
+import RotationHelper from './RotationHelper';
 
 export default class Model {
     private _model?: THREE.Group;
-    private animations?: THREE.AnimationClip[];
-    private _mixer?: THREE.AnimationMixer;
-    private action?: THREE.AnimationAction;
-    private _movement?: Movement;
-    private _rotation?: Rotation;
+    private _movement?: MovementHelper;
+    private _rotation?: RotationHelper;
+    private _animation?: AnimationHelper;
     
     InitFromGroup(group: THREE.Group)
     {
@@ -24,8 +23,8 @@ export default class Model {
             }
         });
         
-        this._movement = new Movement(this);
-        this._rotation = new Rotation(this);
+        this._movement = new MovementHelper(this);
+        this._rotation = new RotationHelper(this);
         
         console.log("Imported model done!");
     }
@@ -43,13 +42,9 @@ export default class Model {
             }
         });
         
-        this.animations = gltf.animations;
-        
-        console.log(`Imported ${this.animations.length} animations from model`);
-        
-        this._mixer = new THREE.AnimationMixer(this._model);
-        this._movement = new Movement(this);
-        this._rotation = new Rotation(this);
+        this._animation = new AnimationHelper(this, gltf.animations);
+        this._movement = new MovementHelper(this);
+        this._rotation = new RotationHelper(this);
         
         console.log("Imported model done!");
     }
@@ -57,11 +52,6 @@ export default class Model {
     get Model()
     {
         return this._model;
-    }
-    
-    get Mixer()
-    {
-        return this._mixer;
     }
     
     get Movement()
@@ -74,6 +64,11 @@ export default class Model {
         return this._rotation;
     }
     
+    get Animation()
+    {
+        return this._animation;
+    }
+    
     SetScale(scale: number)
     {
         if (this.Model)
@@ -84,40 +79,5 @@ export default class Model {
         {
             console.error("Cannot set scale because model doesn't exist!");
         }
-    }
-    
-    PlayAnimation(animName: string, loop: boolean = false, onDone?: Function)
-    {
-        if (this.Mixer && this.animations && animName)
-        {
-            if (this.action && this.action.isRunning)
-                this.StopAnimation();
-            
-            const clip = THREE.AnimationClip.findByName(this.animations, animName);
-            if (clip)
-            {
-                this.action = this.Mixer.clipAction(clip);
-                this.action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
-                this.action.play();
-            
-                if (onDone)
-                {
-                    setTimeout(onDone, clip.duration * 1000 + 2);
-                }
-            }
-            else
-            {
-                console.error(`No animation with name "${animName}" found`);
-            }
-        }
-        else
-        {
-            console.error("No animations imported from model.");
-        }
-    }
-    
-    StopAnimation()
-    {
-        this.action?.stop();
     }
 }

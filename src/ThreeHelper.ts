@@ -1,13 +1,14 @@
 import * as THREE from 'three'
 import Model from './models/Model'
 
-export let scene: THREE.Scene;
+let RUNNING = true;
+
+let scene: THREE.Scene;
 export let camera: THREE.PerspectiveCamera;
-export let renderer: THREE.WebGLRenderer;
+let renderer: THREE.WebGLRenderer;
 
 export let humanModel: Model, bedroomModel: Model;
 
-const clock = new THREE.Clock();
 let light: THREE.PointLight;
 let moonLight: THREE.PointLight;
 let ambLight: THREE.AmbientLight;
@@ -15,7 +16,6 @@ let ambLight: THREE.AmbientLight;
 export async function Init() {
     scene = new THREE.Scene();
 
-    //let bgImg = new THREE.TextureLoader().load("./bg.jpg");
     scene.background = new THREE.Color(0);
 
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight);
@@ -108,16 +108,19 @@ export function UpdateSize()
 }
 
 export function animate() {
-    requestAnimationFrame(animate);
+    if (RUNNING)
+        requestAnimationFrame(animate);
 
-    if (typeof humanModel !== 'undefined')
-        humanModel.Mixer?.update(clock.getDelta());
+    if (typeof humanModel !== 'undefined' && humanModel.Animation)
+        humanModel.Animation.Update();
 
     renderer.render(scene, camera);
 };
 
 export function Cleanup()
 {
+    RUNNING = false;
+    
     bedroomModel.Model?.traverse(obj => {
         if (obj instanceof THREE.Mesh)
         {

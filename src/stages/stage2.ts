@@ -13,7 +13,7 @@ export default function Stage2()
  */
 function Step1()
 {
-    ThreeHelper.humanModel.PlayAnimation("WaveHands");
+    ThreeHelper.humanModel.Animation?.Play("WaveHands");
     
     Dialog.ShowDialog();
     
@@ -43,11 +43,11 @@ function Step2()
 
 function Step3()
 {
-    ThreeHelper.humanModel.PlayAnimation("Pointing");
+    ThreeHelper.humanModel.Animation?.Play("Pointing");
     
     Dialog.SetDialogText(
         `If you are interested, take a look at my computer!`,
-        () => Step4
+        Step4
     );
 }
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Model from './Model';
 
-export default class Rotation
+export default class RotationHelper
 {
     private parent: Model;
     

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Model from './Model'
 
-export default class Movement
+export default class MovementHelper
 {
     private static readonly FRAMETIME = 1000 / 60;
     private speed = 0.002;
@@ -23,7 +23,7 @@ export default class Movement
     {
         const distance = dest.distanceTo(this.parent.Model!.position);
         const walkingTime = distance / this.speed;   // How long it will take to walk to dest (ms)
-        const steps = Math.floor(walkingTime / Movement.FRAMETIME);
+        const steps = Math.floor(walkingTime / MovementHelper.FRAMETIME);
         
         this.parent.Rotation?.RotateY(dest);
         
@@ -39,7 +39,7 @@ export default class Movement
                 {
                     onDone();
                 }
-            }, i * Movement.FRAMETIME);
+            }, i * MovementHelper.FRAMETIME);
         }
     }
 }
