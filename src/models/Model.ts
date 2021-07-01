@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import Movement from './Movement';
+import Rotation from './Rotation';
 
 export default class Model {
     private _model?: THREE.Group;
@@ -8,6 +9,26 @@ export default class Model {
     private _mixer?: THREE.AnimationMixer;
     private action?: THREE.AnimationAction;
     private _movement?: Movement;
+    private _rotation?: Rotation;
+    
+    InitFromGroup(group: THREE.Group)
+    {
+        this._model = group;
+        
+        this._model.traverse(mesh =>
+        {
+            if (mesh instanceof THREE.Mesh)
+            {
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+            }
+        });
+        
+        this._movement = new Movement(this);
+        this._rotation = new Rotation(this);
+        
+        console.log("Imported model done!");
+    }
     
     InitFromGLTF(gltf: GLTF)
     {
@@ -28,6 +49,7 @@ export default class Model {
         
         this._mixer = new THREE.AnimationMixer(this._model);
         this._movement = new Movement(this);
+        this._rotation = new Rotation(this);
         
         console.log("Imported model done!");
     }
@@ -45,6 +67,11 @@ export default class Model {
     get Movement()
     {
         return this._movement;
+    }
+    
+    get Rotation()
+    {
+        return this._rotation;
     }
     
     SetScale(scale: number)

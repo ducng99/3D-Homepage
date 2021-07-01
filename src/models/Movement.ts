@@ -25,9 +25,7 @@ export default class Movement
         const walkingTime = distance / this.speed;   // How long it will take to walk to dest (ms)
         const steps = Math.floor(walkingTime / Movement.FRAMETIME);
         
-        const position2D = new THREE.Vector2(this.parent.Model!.position.x, this.parent.Model!.position.z);
-        const angleRot = Math.atan2((dest.x - position2D.x), (dest.z - position2D.y));
-        this.parent.Model?.rotation.set(0, angleRot, 0);
+        this.parent.Rotation?.RotateY(dest);
         
         const pathVector = new THREE.Vector3().copy(dest).sub(this.parent.Model!.position);
         const stepVector = new THREE.Vector3().copy(pathVector).divideScalar(steps);

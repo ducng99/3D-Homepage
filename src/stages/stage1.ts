@@ -63,9 +63,7 @@ function Step3()
 function Step4()
 {
     ThreeHelper.humanModel.PlayAnimation("LookAround", false, () => {
-        const position2D = new THREE.Vector2(ThreeHelper.humanModel.Model!.position.x, ThreeHelper.humanModel.Model!.position.z);
-        const angleRot = Math.atan2((ThreeHelper.camera.position.x - position2D.x), (ThreeHelper.camera.position.z - position2D.y));
-        ThreeHelper.humanModel.Model?.rotation.set(0, angleRot, 0);
+        ThreeHelper.humanModel.Rotation?.RotateY(ThreeHelper.camera.position);
         
         Stage2();
     });

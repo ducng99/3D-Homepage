@@ -2,7 +2,7 @@
 
 :root
 {
-    --dialog-bottom-padding: 0.5rem;
+    --dialog-bottom-padding: 1vh;
     --dialog-height: 28vh;
     --dialog-background-ratio: 3;
 }
