@@ -14,13 +14,11 @@ body
 
 @keyframes dialogTextOpen {
     from {
-        left: calc(100vw / 2);
         bottom: calc(var(--dialog-height) / 2 + var(--dialog-bottom-padding));
         width: 0vw;
         height: 0vh;
     }
     to {
-        left: calc(100vw / 2 - var(--dialog-height) * (var(--dialog-background-ratio) / 2));
         bottom: var(--dialog-bottom-padding);
         width: calc(var(--dialog-height) * var(--dialog-background-ratio));
         height: var(--dialog-height);
@@ -31,8 +29,9 @@ body
 {
     font-family: 'Ubuntu Mono', monospace;
     font-size: 1.1rem;
-    background: url("./svgs/dialog.svg") center center/contain no-repeat;
+    background: url("./svgs/dialog.svg") center center/100% 100% no-repeat;
     width: 0vw;
+    max-width: 100vw;
     height: 0vh;
     animation-name: dialogTextOpen;
     animation-duration: 1s;
