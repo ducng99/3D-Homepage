@@ -1,5 +1,4 @@
 import * as ThreeHelper from './ThreeHelper'
-import Stage1 from './stages/stage1';
 
 window.onload = () =>
 {
@@ -60,7 +59,7 @@ function Start()
             {
                 if ((<HTMLInputElement>event.currentTarget).checked)
                 {
-                    Stage1();
+                    import("./stages/stage1").then((Stage1) => Stage1.default());
                 }
             }
         }

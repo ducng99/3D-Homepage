@@ -34,7 +34,7 @@ function Step1()
 function Step2()
 {
     Dialog.SetDialogText(
-        `Throughout the game of life, I have learned new skills such as <b>Java</b>, <b>C#</b>, <b>C++</b>, <b>PHP</b> and a couple of other languages.<br/>
+        `Playing the game called "Life", I have learned new skills such as <b>Java</b>, <b>C#</b>, <b>C++</b>, <b>PHP</b> and a couple of other languages.<br/>
         Also familiarized myself with tools like Node.js, Express.js, Vue.js (currently collecting exp for React).<br/><br/>
         My speciality is in backend and software development.`,
         () => setTimeout(Step3, 4000)

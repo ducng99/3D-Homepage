@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Model from './models/Model'
 
 export let scene: THREE.Scene;
@@ -8,7 +7,6 @@ export let renderer: THREE.WebGLRenderer;
 
 export let humanModel: Model, bedroomModel: Model;
 
-const loader = new GLTFLoader();
 const clock = new THREE.Clock();
 let light: THREE.PointLight;
 let moonLight: THREE.PointLight;
@@ -36,6 +34,8 @@ export async function Init() {
 }
 
 export async function SetupRoom() {
+    let loader = new (await import("three/examples/jsm/loaders/GLTFLoader.js")).GLTFLoader();
+    
     loader.load('/3DModels/Bedroom.glb', function (gltf) {
         bedroomModel = new Model();
         bedroomModel.InitFromGLTF(gltf);
@@ -47,6 +47,8 @@ export async function SetupRoom() {
 }
 
 export async function SetupHuman(onLoaded?: Function) {
+    let loader = new (await import("three/examples/jsm/loaders/GLTFLoader.js")).GLTFLoader();
+    
     loader.load('/3DModels/human.glb', function (gltf) {
         humanModel = new Model();
         humanModel.InitFromGLTF(gltf);

@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import * as ThreeHelper from '../ThreeHelper'
-import Stage2 from './stage2';
 
 export default function Stage1()
 {
@@ -65,6 +64,6 @@ function Step4()
     ThreeHelper.humanModel.PlayAnimation("LookAround", false, () => {
         ThreeHelper.humanModel.Rotation?.RotateY(ThreeHelper.camera.position);
         
-        Stage2();
+        import("./stage2").then(Stage2 => Stage2.default());
     });
 }
