@@ -25,7 +25,7 @@ body
     }
 }
 
-#dialog-text
+#dialog
 {
     font-family: 'Ubuntu Mono', monospace;
     font-size: 1.1rem;
@@ -37,4 +37,24 @@ body
     animation-duration: 1s;
     animation-fill-mode: forwards;
     z-index: 2;
+}
+
+#dialog-button
+{
+    cursor: pointer;
+    width: max-content;
+    background: url("./assets/svgs/button.svg") center center/contain no-repeat;
+    bottom: 0.5rem;
+    right: 0.65rem;
+    z-index: 3;
+}
+
+#dialog-button:hover
+{
+    transform: scale(1.05);
+}
+
+#dialog-button:active
+{
+    transform: scale(0.95);
 }

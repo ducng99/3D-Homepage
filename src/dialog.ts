@@ -1,15 +1,41 @@
 export function ShowDialog()
 {
-    let dialogDOM = document.getElementById("dialog-text");
+    let dialogDOM = document.getElementById("dialog");
     if (dialogDOM)
-        dialogDOM.style.display = "block";
+        dialogDOM.style.display = "";
 }
 
 export function HideDialog()
 {
-    let dialogDOM = document.getElementById("dialog-text");
+    let dialogDOM = document.getElementById("dialog");
     if (dialogDOM)
         dialogDOM.style.display = "none";
+}
+
+export function ShowButton()
+{
+    let dialogButtonDOM = document.getElementById("dialog-button");
+    if (dialogButtonDOM)
+        dialogButtonDOM.style.display = "";
+}
+
+export function HideButton()
+{
+    let dialogButtonDOM = document.getElementById("dialog-button");
+    if (dialogButtonDOM)
+    {
+        dialogButtonDOM.style.display = "none";
+        dialogButtonDOM.onclick = null;
+    }
+}
+
+export function SetButtonOnClickListener(func: Function)
+{
+    let dialogButtonDOM = document.getElementById("dialog-button");
+    if (dialogButtonDOM)
+    {
+        dialogButtonDOM.onclick = (event) => func(event);
+    }
 }
 
 let blinkingCursorInterval: number;
