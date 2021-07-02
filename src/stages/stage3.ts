@@ -16,10 +16,14 @@ function Step1()
     
     const FRAMETIME = 1000 / 60;
     const currentPosition = new THREE.Vector3().copy(ThreeHelper.camera.position);
-    const destination = new THREE.Vector3(1.6, 2.2, -0.6);
+    
+    // Based on 3D model
+    const moveDestination = new THREE.Vector3(1.5661, 2.23152, -0.6);
+    const lookAtDestination = new THREE.Vector3(1.5661, 2.23152, -2.09425);
+    
     const totalTime = 2000;     // Total time takes to move to destination (ms)
     const steps = totalTime / FRAMETIME;
-    const pathVector = new THREE.Vector3().copy(destination).sub(currentPosition);
+    const pathVector = new THREE.Vector3().copy(moveDestination).sub(currentPosition);
     
     for (let i = 1; i <= steps; i++)
     {
@@ -27,13 +31,13 @@ function Step1()
         {
             let easedNum = EasingCalc(i / steps);
             
+            // Smoothly moving camera
             let easedVector = new THREE.Vector3().copy(pathVector).multiplyScalar(easedNum);
             let newPosition = easedVector.add(currentPosition);
             
-            ThreeHelper.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+            ThreeHelper.camera.position.copy(newPosition);
             
-            // Easing look at monitor from default location (0, 0, 0)
-            let lookAtDestination = new THREE.Vector3(1.6, 2.2, -2.1);
+            // Smoothly looking at monitor from default location (0, 0, 0)
             let lookAtVector = new THREE.Vector3().copy(lookAtDestination).multiplyScalar(easedNum);
             ThreeHelper.camera.lookAt(lookAtVector);
             

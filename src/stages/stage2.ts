@@ -63,13 +63,9 @@ function Step3()
             Dialog.ShowButton();
             Dialog.SetButtonOnClickListener(() => {
                 Dialog.HideButton();
-                Step4();
+                
+                import("./stage3").then(Stage3 => Stage3.default());
             });
         }
     );
-}
-
-function Step4()
-{
-    
 }

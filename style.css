@@ -58,3 +58,11 @@ body
 {
     transform: scale(0.95);
 }
+
+#landingPage
+{   
+    /* Hard-coded values to match monitor screen */
+    height: 78.3vh;
+    width: 152vh;
+    max-width: 100vw;
+}

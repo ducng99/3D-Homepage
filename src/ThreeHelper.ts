@@ -9,6 +9,8 @@ let renderer: THREE.WebGLRenderer;
 
 export let humanModel: Model, bedroomModel: Model;
 
+let modelsList: Model[] = [];
+
 let light: THREE.PointLight;
 let moonLight: THREE.PointLight;
 let ambLight: THREE.AmbientLight;
@@ -41,6 +43,8 @@ export async function SetupRoom() {
         bedroomModel.InitFromGLTF(gltf);
 
         scene.add(bedroomModel.Model!);
+        
+        modelsList.push(bedroomModel);
     }, undefined, function (error) {
         console.error(error);
     });
@@ -54,6 +58,8 @@ export async function SetupHuman(onLoaded?: Function) {
         humanModel.InitFromGLTF(gltf);
 
         scene.add(humanModel.Model!);
+        
+        modelsList.push(humanModel);
         
         if (onLoaded)
             onLoaded();
@@ -111,8 +117,11 @@ export function animate() {
     if (RUNNING)
         requestAnimationFrame(animate);
 
-    if (typeof humanModel !== 'undefined' && humanModel.Animation)
+    if (humanModel && humanModel.Animation)
         humanModel.Animation.Update();
+    
+    if (bedroomModel && bedroomModel.Animation)
+        bedroomModel.Animation.Update();
 
     renderer.render(scene, camera);
 };
