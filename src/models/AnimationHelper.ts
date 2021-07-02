@@ -19,9 +19,9 @@ export default class AnimationHelper
         this.mixer = new THREE.AnimationMixer(this.parent.Model!);
     }
     
-    Play(animName: string, loop: boolean = false, onDone?: Function)
+    Play(animName: string, loop = false, onDone?: Function, stayLastFrame = false)
     {
-        if (this.mixer && this.animations && animName)
+        if (this.animations && animName)
         {
             if (this.action && this.action.isRunning)
                 this.Stop();
@@ -31,6 +31,7 @@ export default class AnimationHelper
             {
                 this.action = this.mixer.clipAction(clip);
                 this.action.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
+                this.action.clampWhenFinished = stayLastFrame;
                 this.action.play();
             
                 if (onDone)
