@@ -22,7 +22,7 @@ function Step1()
     const lookAtDestination = new THREE.Vector3(1.5661, 2.23152, -2.09425);
     
     const totalTime = 2000;     // Total time takes to move to destination (ms)
-    const steps = totalTime / FRAMETIME;
+    const steps = Math.floor(totalTime / FRAMETIME);
     const pathVector = new THREE.Vector3().copy(moveDestination).sub(currentPosition);
     
     for (let i = 1; i <= steps; i++)
@@ -51,7 +51,16 @@ function Step1()
 
 function Step2()
 {
-    ThreeHelper.bedroomModel.Animation?.Play("MonitorBlack", false, undefined, true);
+    let landingPageDOM = document.getElementById("landingPageFrame");
+    
+    if (landingPageDOM)
+    {
+        landingPageDOM.style.display = "";
+    }
+    else
+    {
+        console.error("Cannot find landing page iframe!");
+    }
 }
 
 /**

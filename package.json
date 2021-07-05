@@ -9,7 +9,7 @@
     "url": "https://github.com/ducng99/3D-Homepage"
   },
   "license": "AGPL-3.0",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
