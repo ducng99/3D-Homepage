@@ -72,7 +72,7 @@ export function SetDialogText(text: string, onDone?: Function)
             else if (charToPrint === ", ")
                 delay += 300;
             else
-                delay += 50;
+                delay += 30;
             
             setTimeout(() => {
                 if (dialogTextDOM)

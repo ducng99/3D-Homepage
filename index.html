@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link href="/style.css" rel="stylesheet" />
+    <link href="/style.scss" rel="stylesheet" />
     <title>Hi, I'm Tom</title>
 </head>
 
@@ -21,17 +21,19 @@
         <div id="landingPage"></div>
     </div>
 
-    <div class="d-flex justify-content-center">
-        <div class="position-absolute text-white" id="dialog" style="display: none;">
-            <div class="overflow-auto p-4 p-sm-5" id="dialog-text"></div>
-            <div class="position-absolute p-3" id="dialog-button" style="display: none;">Continue <i class="bi bi-caret-right-fill"></i></div>
+    <div id="intro">
+        <div class="d-flex justify-content-center">
+            <div class="position-absolute text-white" id="dialog" style="display: none;">
+                <div class="overflow-auto p-4 p-sm-5" id="dialog-text"></div>
+                <div class="position-absolute p-3" id="dialog-button" style="display: none;">Continue <i class="bi bi-caret-right-fill"></i></div>
+            </div>
         </div>
-    </div>
 
-    <div class="form-check form-switch position-fixed w-100 text-white fs-1 mt-3 ps-0 align-items-center"
-        style="text-shadow: 0px 0px 20px #000; display: none" id="lightToggleContainer">
-        <input class="form-check-input ms-0" type="checkbox" id="lightToggle" />
-        <label class="form-check-label" for="lightToggle">Turn the light on?</label>
+        <div class="form-check form-switch position-fixed w-100 text-white fs-1 mt-3 ps-0 align-items-center"
+            style="text-shadow: 0px 0px 20px #000; display: none" id="lightToggleContainer">
+            <input class="form-check-input ms-0" type="checkbox" id="lightToggle" />
+            <label class="form-check-label" for="lightToggle">Turn the light on?</label>
+        </div>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
