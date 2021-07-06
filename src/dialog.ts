@@ -10,6 +10,9 @@ export function HideDialog()
     let dialogDOM = document.getElementById("dialog");
     if (dialogDOM)
         dialogDOM.style.display = "none";
+    
+    HideButton();
+    ToggleBlinkingCursor(false);
 }
 
 export function ShowButton()
@@ -38,8 +41,6 @@ export function SetButtonOnClickListener(func: Function)
     }
 }
 
-let blinkingCursorInterval: number;
-
 /**
  * Set new text for the dialog with typing animation
  * @param text an HTML string to show on the dialog
@@ -47,7 +48,8 @@ let blinkingCursorInterval: number;
  */
 export function SetDialogText(text: string, onDone?: Function)
 {
-    clearInterval(blinkingCursorInterval);
+    ToggleBlinkingCursor(false);
+    
     let dialogTextDOM = document.getElementById("dialog-text");
     if (dialogTextDOM)
     {
@@ -89,15 +91,7 @@ export function SetDialogText(text: string, onDone?: Function)
                         if (onDone)
                             onDone();
                         
-                        // Setup blinking cursor interval
-                        blinkingCursorInterval = window.setInterval(() => {
-                            if (dialogTextDOM)
-                            {
-                                let blinkingCursorIsShown = dialogTextDOM.innerHTML.endsWith("_");
-                                
-                                dialogTextDOM.innerHTML = blinkingCursorIsShown ? dialogTextDOM.innerHTML.substring(0, dialogTextDOM.innerHTML.length - 1) : dialogTextDOM.innerHTML + "_";
-                            }
-                        }, 500);
+                        ToggleBlinkingCursor(true);
                     }
                 }
                 else
@@ -110,5 +104,32 @@ export function SetDialogText(text: string, onDone?: Function)
     else
     {
         console.error("Cannot find dialog text DOM");
+    }
+}
+
+let isBlinkingCursor = false;
+let blinkingCursorInterval: number;
+
+function ToggleBlinkingCursor(state: boolean)
+{
+    isBlinkingCursor = state;
+    
+    if (isBlinkingCursor)
+    {
+        let dialogTextDOM = document.getElementById("dialog-text");
+        
+        // Setup blinking cursor interval
+        blinkingCursorInterval = window.setInterval(() => {
+            if (dialogTextDOM)
+            {
+                let blinkingCursorIsShown = dialogTextDOM.innerHTML.endsWith("_");
+                
+                dialogTextDOM.innerHTML = blinkingCursorIsShown ? dialogTextDOM.innerHTML.substring(0, dialogTextDOM.innerHTML.length - 1) : dialogTextDOM.innerHTML + "_";
+            }
+        }, 500);
+    }
+    else
+    {
+        clearInterval(blinkingCursorInterval);
     }
 }
